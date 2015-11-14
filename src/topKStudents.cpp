@@ -16,21 +16,21 @@ NOTES:
 #include <iostream>
 #include <malloc.h>
 
-typedef struct student {
+struct student {
 	char *name;
 	int score;
-}student;
+};
 
-student ** topKStudents(struct student *students, int len, int K) {
+struct student ** topKStudents(student *students, int len, int K) {
 	if (students == NULL)return NULL;
 	if (len < 0)return NULL;
 	if (K<=0)return NULL;
 	int i, j, k;
 	struct student temp;
 	if (K>len)K = len;
-	student **stud = ( student**)malloc(sizeof(student*));
+	struct student **stud = ( struct student**)malloc(K*sizeof(struct student*));
 	for (i = 0; i < K; i++)
-		stud[i] = (student*)malloc(K*sizeof(student));
+		stud[i] = (struct student*)malloc(sizeof(struct student));
 	for (i = 0; i < K ; i++)
 	{
 		for (j = 0; j < len - i-1 ; j++)
@@ -42,7 +42,7 @@ student ** topKStudents(struct student *students, int len, int K) {
 				students[j + 1] = temp;
 			}
 		}
-		stud[0][K - i - 1] = students[len - i - 1];
+		*stud[i ] = students[len - i - 1];
 	}	
 	return stud;
 }
